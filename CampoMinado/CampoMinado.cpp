@@ -37,7 +37,7 @@ int main() {
 		}
 	}
 
-	// Counting the surrounding Mines
+									// Counting the surrounding Mines
 	for (int i = 1; i <= 16; i++)
 	{
 		for (int j = 1; j <= 16; j++)
@@ -63,12 +63,30 @@ int main() {
 
 	while (screen.isOpen())
 	{
+
+									// Where you are clicking
+		Vector2i position = Mouse::getPosition(screen);
+		int x = position.x / width;
+		int y = position.y / width;
+
 		Event event;
 		while (screen.pollEvent(event))
 		{
 			if (event.type == Event::Closed)
 			{
 				screen.close();
+			}
+
+									// Clicking event
+			if(event.type == Event::MouseButtonPressed)
+			{
+				if(event.key.code == Mouse::Left) // Left click to reveal the cell
+				{
+					showGrid[x][y] = grid[x][y];
+				} else if (event.key.code == Mouse::Right)	// Right Click for Flag
+				{
+					showGrid[x][y] = 11;
+				}
 			}
 		}
 
@@ -78,7 +96,10 @@ int main() {
 			for (int j = 1; j <= 16; j++)
 			{
 
-				showGrid[i][j] = grid[i][j];
+				if (showGrid[x][y] == 9)
+				{
+					showGrid[i][j] = grid[i][j];
+				}
 
 				sprites.setTextureRect(IntRect(showGrid[i][j] * width, 0, width, width));
 				sprites.setPosition(i * width, j * width);
