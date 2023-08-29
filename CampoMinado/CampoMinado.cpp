@@ -24,8 +24,41 @@ int main() {
 		for (int j = 1; j <= 16; j++)
 		{
 			showGrid[i][j] = 10;
+
+			if(rand() % 5 == 0)
+			{
+				grid[i][j] = 9;
+			}
+			else 
+			{
+				grid[i][j] = 0;
+			}
+
 		}
 	}
+
+	// Counting the surrounding Mines
+	for (int i = 1; i <= 16; i++)
+	{
+		for (int j = 1; j <= 16; j++)
+		{
+			int adj = 0;
+			if (grid[i][j] == 9) continue;
+			if (grid[i + 1][j] == 9) adj++;
+			if (grid[i][j + 1] == 9) adj++;
+			if (grid[i - 1][j] == 9) adj++;
+			if (grid[i][j - 1] == 9) adj++;
+
+			if (grid[i + 1][j + 1] == 9) adj++;
+			if (grid[i - 1][j + 1] == 9) adj++;
+			if (grid[i + 1][j - 1] == 9) adj++;
+			if (grid[i - 1][j - 1] == 9) adj++;
+
+			grid[i][j] = adj;
+		}
+	
+	}
+
 
 
 	while (screen.isOpen())
@@ -44,7 +77,10 @@ int main() {
 		{
 			for (int j = 1; j <= 16; j++)
 			{
-				sprites.setTextureRect(IntRect(showGrid[i][j] * width, 1, width, width));
+
+				showGrid[i][j] = grid[i][j];
+
+				sprites.setTextureRect(IntRect(showGrid[i][j] * width, 0, width, width));
 				sprites.setPosition(i * width, j * width);
 				screen.draw(sprites);
 			}
