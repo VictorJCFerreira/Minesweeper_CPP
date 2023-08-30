@@ -5,29 +5,57 @@
 
 using namespace sf;
 
+int width = 32;
+int rows = 16;
+int cols = 16;
+int grid[17][17];
+int showGrid[17][17];
+int bombCount = 0;
+const int totalBomb = 50;
+
+// function that shows the Open spaces
+void revealAdjacentCells(int x, int y) {
+	if (x < 1 || x > rows || y < 1 || y > cols || showGrid[x][y] != 10) {
+		return;
+	}
+
+	showGrid[x][y] = grid[x][y];
+	if (grid[x][y] == 0) {
+		revealAdjacentCells(x + 1, y);
+		revealAdjacentCells(x - 1, y);
+		revealAdjacentCells(x, y + 1);
+		revealAdjacentCells(x, y - 1);
+		revealAdjacentCells(x + 1, y + 1);
+		revealAdjacentCells(x - 1, y + 1);
+		revealAdjacentCells(x + 1, y - 1);
+		revealAdjacentCells(x -1 , y - 1);
+
+	}
+}
+
+
 int main() {
 
 	srand(time(0));
 
 	RenderWindow screen(VideoMode(600, 600), "Minesweeper");
 
-	int width = 32;
-	int grid[20][20];
-	int showGrid[20][20];
-
 	Texture tile;
 	tile.loadFromFile("Images/tiles.jpg");
 	Sprite sprites(tile);
 
-	for (int i = 1; i <= 16; i++)
+
+	// Placing Bombs and Covered Cells
+	for (int i = 1; i <= rows; i++)
 	{
-		for (int j = 1; j <= 16; j++)
+		for (int j = 1; j <= cols; j++)
 		{
 			showGrid[i][j] = 10;
 
-			if(rand() % 5 == 0)
+			if(bombCount < totalBomb && rand() % 5 == 0)
 			{
 				grid[i][j] = 9;
+				bombCount++;
 			}
 			else 
 			{
@@ -37,10 +65,10 @@ int main() {
 		}
 	}
 
-									// Counting the surrounding Mines
-	for (int i = 1; i <= 16; i++)
+	// Counting the surrounding Mines
+	for (int i = 1; i <= rows; i++)
 	{
-		for (int j = 1; j <= 16; j++)
+		for (int j = 1; j <= cols; j++)
 		{
 			int adj = 0;
 			if (grid[i][j] == 9) continue;
@@ -60,11 +88,10 @@ int main() {
 	}
 
 
-
 	while (screen.isOpen())
 	{
 
-									// Where you are clicking
+		// Where you are clicking
 		Vector2i position = Mouse::getPosition(screen);
 		int x = position.x / width;
 		int y = position.y / width;
@@ -77,13 +104,24 @@ int main() {
 				screen.close();
 			}
 
-									// Clicking event
+			// Clicking event
 			if(event.type == Event::MouseButtonPressed)
 			{
-				if(event.key.code == Mouse::Left) // Left click to reveal the cell
+				// Left click to reveal the cells 
+				if(event.key.code == Mouse::Left) 
 				{
 					showGrid[x][y] = grid[x][y];
-				} else if (event.key.code == Mouse::Right)	// Right Click for Flag
+					//for empty cells
+					if (grid[x][y] == 0) 
+					{
+						revealAdjacentCells(x + 1, y);
+						revealAdjacentCells(x - 1, y);
+						revealAdjacentCells(x, y + 1);
+						revealAdjacentCells(x, y - 1);
+					}
+				} 
+				// Right Click for Flag
+				else if (event.key.code == Mouse::Right)	
 				{
 					showGrid[x][y] = 11;
 				}
@@ -91,16 +129,17 @@ int main() {
 		}
 
 		screen.clear(Color::White);
-		for (int i = 1; i <= 16; i++)
+		for (int i = 1; i <= rows; i++)
 		{
-			for (int j = 1; j <= 16; j++)
+			for (int j = 1; j <= cols; j++)
 			{
-
+				//ending when clicking a bomb
 				if (showGrid[x][y] == 9)
 				{
 					showGrid[i][j] = grid[i][j];
 				}
 
+				//render cells in the screen
 				sprites.setTextureRect(IntRect(showGrid[i][j] * width, 0, width, width));
 				sprites.setPosition(i * width, j * width);
 				screen.draw(sprites);
