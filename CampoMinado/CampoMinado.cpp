@@ -5,13 +5,15 @@
 
 using namespace sf;
 
+
 int width = 32;
 int rows = 16;
 int cols = 16;
-int grid[17][17];
-int showGrid[17][17];
+int grid[18][18];
+int showGrid[18][18];
 int bombCount = 0;
 const int totalBomb = 50;
+
 
 // function that shows the Open spaces
 void revealAdjacentCells(int x, int y) {
@@ -34,11 +36,13 @@ void revealAdjacentCells(int x, int y) {
 }
 
 
+
 int main() {
+
 
 	srand(time(0));
 
-	RenderWindow screen(VideoMode(600, 600), "Minesweeper");
+	RenderWindow screen(VideoMode(580, 580), "Minesweeper");
 
 	Texture tile;
 	tile.loadFromFile("Images/tiles.jpg");
@@ -64,6 +68,7 @@ int main() {
 
 		}
 	}
+
 
 	// Counting the surrounding Mines
 	for (int i = 1; i <= rows; i++)
@@ -127,6 +132,7 @@ int main() {
 				}
 			}
 		}
+
 
 		screen.clear(Color::White);
 		for (int i = 1; i <= rows; i++)

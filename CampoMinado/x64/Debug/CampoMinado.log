@@ -1,5 +1,5 @@
 ﻿  CampoMinado.cpp
-C:\Users\Lenovo\source\repos\CampoMinado\CampoMinado\CampoMinado.cpp(38,12): warning C4244: 'argumento': conversão de 'time_t' para 'unsigned int', possível perda de dados
-C:\Users\Lenovo\source\repos\CampoMinado\CampoMinado\CampoMinado.cpp(143,38): warning C4244: 'argumento': conversão de 'int' para 'float', possível perda de dados
-C:\Users\Lenovo\source\repos\CampoMinado\CampoMinado\CampoMinado.cpp(143,27): warning C4244: 'argumento': conversão de 'int' para 'float', possível perda de dados
+C:\Users\Lenovo\source\repos\CampoMinado\CampoMinado\CampoMinado.cpp(43,12): warning C4244: 'argumento': conversão de 'time_t' para 'unsigned int', possível perda de dados
+C:\Users\Lenovo\source\repos\CampoMinado\CampoMinado\CampoMinado.cpp(150,38): warning C4244: 'argumento': conversão de 'int' para 'float', possível perda de dados
+C:\Users\Lenovo\source\repos\CampoMinado\CampoMinado\CampoMinado.cpp(150,27): warning C4244: 'argumento': conversão de 'int' para 'float', possível perda de dados
   CampoMinado.vcxproj -> C:\Users\Lenovo\source\repos\CampoMinado\x64\Debug\CampoMinado.exe
